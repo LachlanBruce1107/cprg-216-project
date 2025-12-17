@@ -11,8 +11,7 @@ for line in fid:
 fid.close()
 
 print('Welcome to the cars inventory system')
-choice = 'y'
-while choice == 'y' or choice == 'yes':
+while True:
     option = show_menu()
     match option:
         case 1:
@@ -28,6 +27,5 @@ while choice == 'y' or choice == 'yes':
         case 6:
             save_data(car_list)
         case 0:
-            choice = 'n'
+            break
     
-    choice = input("Would you like to continue(y/yes), or exit the program(n/no)? \n")

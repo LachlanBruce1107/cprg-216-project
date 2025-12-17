@@ -29,44 +29,44 @@ def edit_car(cars,id):
     cars[id].set_body(body)
     cars[id].set_year(year)
     cars[id].set_value(value)
-    
-    car_info = (id, name, make, body, year, str(value))
-    car_info = ' '.join(car_info)
 
-    print("Car's new info is ", car_info)
 
 def search(cars, choice):
     if choice == "1":
         id = input("Please Enter the id of the car:\n")
+        if id in cars:
+            return id
     elif  choice == "2":
         name = input("Please Enter the name of the car:\n")
         for car in cars:
             if name == cars[car].get_name():
                 id = car
-                break
+                return id
 
-    name = cars[id].get_name()
-    make = cars[id].get_make()
-    body = cars[id].get_body()
-    year = cars[id].get_year()
-    value = cars[id].get_value()
-    car_info = (id, name, make, body, year, str(value))
-    return ' '.join(car_info)
+    return None
 
 def run_search(cars):
-    choice = input("To search using the Id enter 1. To search using the name of the car enter 2. Enter -1 to return to the previous menu\n" )
-    if  choice == "-1":
-        return
-    else:
-        car_info = search(cars, choice)
-        print("Car found  ", car_info)
+    while True:
+        choice = input("To search using the Id enter 1. To search using the name of the car enter 2. Enter -1 to return to the previous menu\n" )
+        if  choice == "-1":
+            return
+        elif choice == "1" or choice == "2":
+            id = search(cars, choice)
+            if id != None:
+                print("Car found  ", cars[id].get_all_attributes())
+            else:
+                print("Car not found")
 
 def run_edit(cars):
-    id = input("Enter the id of the car. Enter -1 to return to the previous menu\n")
-    if id == "-1":
-        return
-    else:
-        edit_car(cars, id)
+    while True:
+        id = input("Enter the id of the car. Enter -1 to return to the previous menu\n")
+        if id == "-1":
+            return
+        elif id in cars:
+            edit_car(cars, id)
+            print("Car's new info is ",cars[id].get_all_attributes())
+        else:
+            print("No car found")
     
 def same_name(cars,name):
     for car in cars:
@@ -90,8 +90,8 @@ def run_add(cars):
             print("Incorrect Id. Id already exist in the system.")
         else:
             add(cars,id,name,make,body,year,value)
-            print("car Enrolled in the system")
-            print(id,name,make,body,year,value)
+            print("car added to inventory")
+            print(cars[id].get_all_attributes())
         choice = input("Do you want to add more cars? y(yes)/n(no)\n").lower()
 
 
@@ -117,3 +117,4 @@ def save_data(cars):
         fid.write(cars[car].get_all_attributes())
         fid.write('\n')
     fid.close
+    print("Data saved to local file successfully!")
